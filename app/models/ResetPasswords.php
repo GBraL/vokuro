@@ -52,7 +52,8 @@ class ResetPasswords extends Model
     public function beforeValidationOnCreate()
     {
         // Timestamp the confirmaton
-        $this->createdAt = time();
+        // $this->createdAt = time();
+        $this->createdAt = $this->config->database->adapter == 'Postgresql' ? date('Y-m-d H:i:s') : time();
 
         // Generate a random confirmation code
         $this->code = preg_replace('/[^a-zA-Z0-9]/', '', base64_encode(openssl_random_pseudo_bytes(24)));
@@ -67,7 +68,8 @@ class ResetPasswords extends Model
     public function beforeValidationOnUpdate()
     {
         // Timestamp the confirmaton
-        $this->modifiedAt = time();
+        // $this->modifiedAt = time();
+        $this->createdAt = $this->config->database->adapter == 'Postgresql' ? date('Y-m-d H:i:s') : time();
     }
 
     /**
@@ -90,4 +92,16 @@ class ResetPasswords extends Model
             'alias' => 'user'
         ));
     }
+
+	public function columnMap()
+	{
+		return array(
+			'id'		=> 'id',
+			'usersid'	=> 'usersId',
+			'code'		=> 'code',
+			'reset'		=> 'reset',
+			'createdat'	=> 'createdAt',
+			'modifiedat'=> 'modifiedAt',
+		);
+	}
 }

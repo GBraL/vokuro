@@ -49,7 +49,9 @@ class Acl extends Component
             'delete'
         ),
         'permissions' => array(
-            'index'
+            'index',
+            'search',
+            'save'
         )
     );
 
@@ -64,6 +66,7 @@ class Acl extends Component
         'create' => 'Create',
         'edit' => 'Edit',
         'delete' => 'Delete',
+        'save' => 'save',
         'changePassword' => 'Change password'
     );
 

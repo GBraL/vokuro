@@ -4,7 +4,7 @@ use Phalcon\Mvc\View;
 use Phalcon\Crypt;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
+use Phalcon\Db\Adapter\Pdo\Postgresql as DbAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Files as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
@@ -13,6 +13,11 @@ use Phalcon\Flash\Direct as Flash;
 use Vokuro\Auth\Auth;
 use Vokuro\Acl\Acl;
 use Vokuro\Mail\Mail;
+
+/**
+ * Set TIMEZONE
+ */
+date_default_timezone_set($config->environment->timezone);
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
@@ -63,11 +68,12 @@ $di->set('view', function () use ($config) {
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->set('db', function () use ($config) {
-    return new DbAdapter(array(
-        'host' => $config->database->host,
-        'username' => $config->database->username,
-        'password' => $config->database->password,
-        'dbname' => $config->database->dbname
+    $adapter = 'Phalcon\\Db\\Adapter\Pdo\\' . $config->database->adapter;
+    return new $adapter(array(
+        'host'      => $config->database->host,
+        'username'  => $config->database->username,
+        'password'  => $config->database->password,
+        'dbname'    => $config->database->dbname
     ));
 });
 

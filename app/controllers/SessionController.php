@@ -69,19 +69,23 @@ class SessionController extends ControllerBase
         $form = new LoginForm();
 
         try {
+            // echo '<pre>';
+            // print_r($this->request->getPost());
+            // exit;
 
             if (!$this->request->isPost()) {
-
                 if ($this->auth->hasRememberMe()) {
                     return $this->auth->loginWithRememberMe();
                 }
-            } else {
-
+            } 
+            else {
                 if ($form->isValid($this->request->getPost()) == false) {
                     foreach ($form->getMessages() as $message) {
                         $this->flash->error($message);
+                        // echo 'teste';
                     }
-                } else {
+                } 
+                else {
 
                     $this->auth->check(array(
                         'email' => $this->request->getPost('email'),
@@ -92,7 +96,8 @@ class SessionController extends ControllerBase
                     return $this->response->redirect('users');
                 }
             }
-        } catch (AuthException $e) {
+        } 
+        catch (AuthException $e) {
             $this->flash->error($e->getMessage());
         }
 

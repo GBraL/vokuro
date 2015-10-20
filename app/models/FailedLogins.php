@@ -40,4 +40,14 @@ class FailedLogins extends Model
             'alias' => 'user'
         ));
     }
+
+	public function columnMap()
+	{
+		return array(
+			'id'		=> 'id',
+			'usersid'	=> 'usersId',
+			'ipaddress'	=> 'ipAddress',
+			'attempted'	=> 'attempted',
+		);
+	}
 }

@@ -157,4 +157,19 @@ class Users extends Model
             )
         ));
     }
+
+	public function columnMap()
+	{
+		return array(
+			'id'		=> 'id',
+			'name'		=> 'name',
+			'email'		=> 'email',
+			'password'	=> 'password',
+			'mustchangepassword'	=> 'mustChangePassword',
+			'profilesid'=> 'profilesId',
+			'banned'	=> 'banned',
+			'suspended'=> 'suspended',
+			'active'	=> 'active',
+		);
+	}
 }

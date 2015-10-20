@@ -82,14 +82,15 @@ class Auth extends Component
         $failedLogin = new FailedLogins();
         $failedLogin->usersId = $userId;
         $failedLogin->ipAddress = $this->request->getClientAddress();
-        $failedLogin->attempted = time();
+        $failedLogin->attempted = $this->config->database->adapter == 'Postgresql' ? date('Y-m-d H:i:s') : time();
         $failedLogin->save();
 
         $attempts = FailedLogins::count(array(
             'ipAddress = ?0 AND attempted >= ?1',
             'bind' => array(
                 $this->request->getClientAddress(),
-                time() - 3600 * 6
+                $this->config->database->adapter == 'Postgresql' ? date('d/m/Y H:i:s', strtotime('-6 Hours')) : time() - 3600 * 6
+                
             )
         ));
 
@@ -124,7 +125,7 @@ class Auth extends Component
         $remember->userAgent = $userAgent;
 
         if ($remember->save() != false) {
-            $expire = time() + 86400 * 8;
+            $expire = $this->config->database->adapter == 'Postgresql' ? date('d/m/Y H:i:s', strtotime('+8 Days')) : time() + 86400 * 8;
             $this->cookies->set('RMU', $user->id, $expire);
             $this->cookies->set('RMT', $token, $expire);
         }
@@ -159,7 +160,7 @@ class Auth extends Component
             if ($cookieToken == $token) {
 
                 $remember = RememberTokens::findFirst(array(
-                    'usersId = ?0 AND token = ?1',
+                    'usersid = ?0 AND token = ?1',
                     'bind' => array(
                         $user->id,
                         $token
@@ -168,7 +169,7 @@ class Auth extends Component
                 if ($remember) {
 
                     // Check if the cookie has not expired
-                    if ((time() - (86400 * 8)) < $remember->createdAt) {
+                    if (($this->config->database->adapter == 'Postgresql' ? date('d/m/Y H:i:s', strtotime('-8 Days')) : (time() - (86400 * 8))) < $remember->createdAt) {
 
                         // Check if the user was flagged
                         $this->checkUserFlags($user);

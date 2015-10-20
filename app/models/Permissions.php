@@ -40,4 +40,14 @@ class Permissions extends Model
             'alias' => 'profile'
         ));
     }
+
+	public function columnMap()
+	{
+		return array(
+			'id'		=> 'id',
+			'profilesid'=> 'profilesId',
+			'resource'	=> 'resource',
+			'action'	=> 'action',
+		);
+	}
 }

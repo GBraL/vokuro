@@ -46,7 +46,8 @@ class RememberTokens extends Model
     public function beforeValidationOnCreate()
     {
         // Timestamp the confirmaton
-        $this->createdAt = time();
+        // $this->createdAt = time();
+        $this->createdAt = $this->config->database->adapter == 'Postgresql' ? date('Y-m-d H:i:s') : time();
     }
 
     public function initialize()
@@ -55,4 +56,15 @@ class RememberTokens extends Model
             'alias' => 'user'
         ));
     }
+
+	public function columnMap()
+	{
+		return array(
+			'id'		=> 'id',
+			'usersid'	=> 'usersId',
+			'token'		=> 'token',
+			'useragent'	=> 'userAgent',
+			'createdat'	=> 'createdAt',
+		);
+	}
 }

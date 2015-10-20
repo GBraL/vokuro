@@ -38,4 +38,13 @@ class Profiles extends Model
             'alias' => 'permissions'
         ));
     }
+
+	public function columnMap()
+	{
+		return array(
+			'id'		=> 'id',
+            'name'      => 'name',
+			'active'	=> 'active',
+		);
+	}
 }

@@ -1,10 +1,10 @@
 <?php
 return new \Phalcon\Config(array(
     'database' => array(
-        'adapter' => 'Mysql',
-        'host' => '127.0.0.1',
-        'username' => 'root',
-        'password' => '',
+        'adapter' => 'Postgresql',
+        'host' => 'localhost',
+        'username' => 'vokuro',
+        'password' => '123456789',
         'dbname' => 'vokuro'
     ),
     'application' => array(
@@ -21,17 +21,21 @@ return new \Phalcon\Config(array(
     ),
     'mail' => array(
         'fromName' => 'Vokuro',
-        'fromEmail' => 'phosphorum@phalconphp.com',
+        'fromEmail' => 'me@gbral.com',
         'smtp' => array(
             'server' => 'smtp.gmail.com',
             'port' => 587,
             'security' => 'tls',
-            'username' => '',
+            'username' => 'me@gbral.com',
             'password' => ''
         )
     ),
     'amazon' => array(
         'AWSAccessKeyId' => '',
         'AWSSecretKey' => ''
+    ),
+    'environment' => array(
+        // 'timezone' => 'America/New_York'
+        'timezone' => 'America/Sao_Paulo'
     )
 ));

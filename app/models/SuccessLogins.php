@@ -40,4 +40,14 @@ class SuccessLogins extends Model
             'alias' => 'user'
         ));
     }
+
+	public function columnMap()
+	{
+		return array(
+			'id'		=> 'id',
+			'usersid'	=> 'usersId',
+			'ipaddress'	=> 'ipAddress',
+			'useragent'	=> 'userAgent',
+		);
+	}
 }
